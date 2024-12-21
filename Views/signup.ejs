@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        // Frontend validation function
+        function validateForm(event) {
+            // Clear previous errors
+            document.getElementById("error-message").innerHTML = "";
+
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            let errorMessage = '';
+
+            // Validate Username
+            if (username.trim() === '') {
+                errorMessage += 'Username is required.<br>';
+            }
+
+            // Validate Email format
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(email)) {
+                errorMessage += 'Please enter a valid email address.<br>';
+            }
+
+            // Validate Password
+            if (password.length < 8) {
+                errorMessage += 'Password must be at least 8 characters long.<br>';
+            }
+
+            // Check if Password and Confirm Password match
+            if (password !== confirmPassword) {
+                errorMessage += 'Passwords do not match.<br>';
+            }
+
+            // If there are errors, prevent form submission and show error message
+            if (errorMessage !== '') {
+                document.getElementById("error-message").innerHTML = errorMessage;
+                event.preventDefault();  // Prevent form submission
+            }
+        }
+    </script>
+</head>
+
+<body>
+    
+    <header class="bg-primary text-white text-center py-3">
+        <h1>Task Manager</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Sign Up</h2>
+
+        <!-- Error message section -->
+        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+        
+        <!-- Sign Up Form -->
+        <form action="/signup" method="POST" onsubmit="validateForm(event)">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <p class="mt-3">Already have an account? <a href="/">Login here</a></p>
+        </form>
+    </div>
+</body>
+</html>

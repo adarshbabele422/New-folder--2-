@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Tasks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <!-- Display Flash Messages -->
+    <% if (messages.length > 0) { %>
+        <div class="flash-messages">
+            <% messages.forEach(function(message) { %>
+                <p><%= message %></p>
+            <% }); %>
+        </div>
+    <% } %>
+    <header class="bg-primary text-white text-center py-2">
+        <div class="col"><h1>Task Manager</h1></div>
+        <a href="/logout" class="btn btn-warning mt-1">Logout</a>
+    </header>
+    <div class="container mt-5">
+        <h2 class="text-center">Edit Task</h2>
+        <form action="/tasks/<%= task._id %>/edit" method="POST">
+            <div class="form-group">
+                <label for="title">Task Title:</label>
+                <input type="text" class="form-control" id="title" name="title" value="<%= task.title %>" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Task Description:</label>
+                <textarea class="form-control" id="description" name="description"
+                    rows="3"><%= task.description %></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="/tasks" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+
+</html>
