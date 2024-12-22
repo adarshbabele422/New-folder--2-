@@ -8,48 +8,50 @@
     <script>
         // Frontend validation function
         function validateForm(event) {
-            // Clear previous errors
-            document.getElementById("error-message").innerHTML = "";
+            // Clear all previous error messages
+            document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
 
-            const username = document.getElementById("username").value;
-            const email = document.getElementById("email").value;
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
 
-            let errorMessage = '';
+            let isValid = true;
 
             // Validate Username
-            if (username.trim() === '') {
-                errorMessage += 'Username is required.<br>';
+            if (username === '') {
+                document.getElementById("username-error").textContent = "Username is required.";
+                isValid = false;
             }
 
             // Validate Email format
             const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             if (!emailPattern.test(email)) {
-                errorMessage += 'Please enter a valid email address.<br>';
+                document.getElementById("email-error").textContent = "Please enter a valid email address.";
+                isValid = false;
             }
 
             // Validate Password
             if (password.length < 8) {
-                errorMessage += 'Password must be at least 8 characters long.<br>';
+                document.getElementById("password-error").textContent = "Password must be at least 8 characters long.";
+                isValid = false;
             }
 
             // Check if Password and Confirm Password match
             if (password !== confirmPassword) {
-                errorMessage += 'Passwords do not match.<br>';
+                document.getElementById("confirmPassword-error").textContent = "Passwords do not match.";
+                isValid = false;
             }
 
-            // If there are errors, prevent form submission and show error message
-            if (errorMessage !== '') {
-                document.getElementById("error-message").innerHTML = errorMessage;
-                event.preventDefault();  // Prevent form submission
+            // Prevent form submission if any validation fails
+            if (!isValid) {
+                event.preventDefault();
             }
         }
     </script>
 </head>
 
 <body>
-    
     <header class="bg-primary text-white text-center py-3">
         <h1>Task Manager</h1>
     </header>
@@ -57,26 +59,27 @@
     <div class="container mt-5">
         <h2 class="text-center">Sign Up</h2>
 
-        <!-- Error message section -->
-        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
-        
         <!-- Sign Up Form -->
         <form action="/signup" method="POST" onsubmit="validateForm(event)">
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+                <input type="text" class="form-control" id="username" name="username">
+                <small id="username-error" class="text-danger error-message"></small>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email">
+                <small id="email-error" class="text-danger error-message"></small>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" name="password">
+                <small id="password-error" class="text-danger error-message"></small>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+                <small id="confirmPassword-error" class="text-danger error-message"></small>
             </div>
             <button type="submit" class="btn btn-primary">Sign Up</button>
             <p class="mt-3">Already have an account? <a href="/">Login here</a></p>
